@@ -1,3 +1,22 @@
+<?php
+
+function nl_date($format, $time) {
+    $search = array('May', 'Jun');
+    $replace = array('mei', 'jun');
+    return str_replace($search, $replace, date($format, $time));
+}
+
+$dates = json_decode(file_get_contents('dates.json'));
+$now = time();
+foreach ($dates as $date) {
+    $time = strtotime($date->date);
+    if ($now < $time) {
+        $next_year = $time;
+        break;
+    }
+    $last_year = $time;
+}
+?>
 <head>
 <style type="text/css">
 body {
@@ -18,7 +37,7 @@ body {
 	vertical-align: top;
 }
 .text {
-	background: rgba(255, 255, 255, 0.5);
+	background: rgba(255, 255, 255, 0.6);
 	padding: 1em;
 	margin: 1em;
 }
@@ -85,16 +104,19 @@ h1, h2 {
 </head>
 <body>
 <div id="left">
-    <h1>2013</h1>
-    <h2>9 mei 2013</h2>
+    <h1><?php echo date('Y', $last_year); ?></h1>
+    <h2><?php echo nl_date('j M Y', $last_year); ?></h2>
     <div class="text">
+        <?php
+            readfile(date('Y', $last_year).'/text.html');
+        ?>
         <div id="carouselWrapper">
             <a id="prev2" class="prev" href="#">&lt;</a>
             <div id="carContainer" class="list_carousel">
             
             <ul id="left_photos">
                 <?php 
-                    $year = 2013;
+                    $year = date('Y', $last_year);
                     $dir = $year.'/fotos';
                     $files = glob($dir . '/*.jpg') + glob($dir . '/*.JPG');
                     foreach ($files as $file) {
@@ -144,24 +166,13 @@ h1, h2 {
         </script>
     </div>
 </div><div id="right">
-<h1>2014</h1>
-<h2>29 mei 2014</h2>
+
+    <h1><?php echo date('Y', $next_year); ?></h1>
+    <h2><?php echo nl_date('j M Y', $next_year); ?></h2>
 <div class="text">
-<p>
-Het is alweer bijna Hemelvaartsdag, dus wordt het weer tijd om
-condens te gaan vertrappen, ofwel dauwtrappen, zoals dat ook wel
-heet.
-</p><p>
-Traditiegetrouw organiseren de explo's al vele jaren dit grandioze
-wandel- en eetfestijn, wat altijd als een succes uitpakt. Gegarandeerd
-geen saaie wandeling met een boterhammetje uit een zakje, maar een
-mooie tocht met als afsluiter een zeer uitgebreide brunch op het
-clubhuis. Explo's noemen het daarom ook wel de Dawnhike.
-</p><p>
-Deze tocht is tevens een geweldige mogelijkheid voor je ouders,
-vrienden, familie of buren om een snufje van scouting op te pikken.
-Deze tocht is namelijk voor iedereen!
-</p>
+    <?php
+        readfile(date('Y', $next_year).'/text.html');
+    ?>
 </div>
 
 </div>
