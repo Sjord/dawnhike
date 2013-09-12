@@ -51,6 +51,7 @@ body {
 h1, h2 { 
 	color: white;
 	padding: 0 1em;
+    text-shadow: #060 0px 0px 8px;
 }
 #right h1, #right h2 {
 	text-align: right;
