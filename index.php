@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 <?php
 
 function nl_date($format, $time) {
@@ -103,6 +105,7 @@ h1, h2 {
 <script src="scripts/jquery.carouFredSel-6.2.1-packed.js"></script>
 <script src="scripts/fancybox/jquery.fancybox.pack.js"></script>
 <link rel="stylesheet" href="scripts/fancybox/jquery.fancybox.css" />
+<title>Dawnhike</title>
 </head>
 <body>
 <div id="left">
@@ -128,10 +131,10 @@ h1, h2 {
                         $size = getimagesize($file);
                         $width = $size[0];
                         $height = $size[1];
-                        $new_width = 150 / $height * $width;
+                        $new_width = floor(150 / $height * $width);
                         echo '<li>
                             <a class="fancybox-thumb" rel="fancybox-thumb" href="'.$file.'">
-                                <img src="'.$file.'" width="'.$new_width.'" />
+                                <img src="'.$file.'" width="'.$new_width.'" alt="Foto van dawnhike '.$year.' bij Scouting Kameleon Kinheim" />
                             </a>
                         </li>';
                     }
