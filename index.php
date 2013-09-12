@@ -1,3 +1,6 @@
+<?php
+header('Content-Type: text/html; charset=utf-8');
+?>
 <!DOCTYPE html>
 <html>
 <?php
@@ -21,6 +24,9 @@ foreach ($dates as $date) {
 ?>
 <head>
 <style type="text/css">
+html {
+    height: 100%;
+}
 body {
 	margin: 0;
 	padding: 0;
@@ -134,7 +140,7 @@ h1, h2 {
                         $new_width = floor(150 / $height * $width);
                         echo '<li>
                             <a class="fancybox-thumb" rel="fancybox-thumb" href="'.$file.'">
-                                <img src="'.$file.'" width="'.$new_width.'" alt="Foto van dawnhike '.$year.' bij Scouting Kameleon Kinheim" />
+                                <img src="'.$file.'" width="'.$new_width.'" alt="Foto van Dawnhike '.$year.' bij Scouting Kameleon Kinheim" />
                             </a>
                         </li>';
                     }
