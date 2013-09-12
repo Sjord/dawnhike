@@ -24,11 +24,12 @@ body {
 	padding: 0;
 	font-family: sans-serif;
 	background: green;
+    display: table;
+    height: 100%;
 }
 #left, #right {
-	min-height: 100%;
 	width: 50%;
-	display: inline-block;
+	display: table-cell;
 	background: green no-repeat center center fixed; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
