@@ -1,4 +1,5 @@
 <?php
+ob_start("ob_gzhandler");
 header('Content-Type: text/html; charset=utf-8');
 ?>
 <!DOCTYPE html>
