@@ -109,8 +109,6 @@ h1, h2 {
 }
 </style>
 <script src="scripts/jquery-1.8.2.min.js"></script>
-<script src="scripts/jquery.carouFredSel-6.2.1-packed.js"></script>
-<script src="scripts/fancybox/jquery.fancybox.pack.js"></script>
 <link rel="stylesheet" href="scripts/fancybox/jquery.fancybox.css" />
 <title>Dawnhike</title>
 </head>
@@ -194,3 +192,5 @@ h1, h2 {
 </div>
 
 </div>
+<script src="scripts/jquery.carouFredSel-6.2.1-packed.js"></script>
+<script src="scripts/fancybox/jquery.fancybox.pack.js"></script>
