@@ -108,7 +108,10 @@ h1, h2 {
     <h2><?php echo nl_date('j M Y', $last_year); ?></h2>
     <div class="text">
         <?php
-            readfile(date('Y', $last_year).'/text.html');
+            $file = date('Y', $last_year).'/text.html';
+            if (file_exists($file)) {
+                readfile($file);
+            }
         ?>
         <div id="carouselWrapper">
             <a id="prev2" class="prev" href="#">&lt;</a>
@@ -171,7 +174,10 @@ h1, h2 {
     <h2><?php echo nl_date('j M Y', $next_year); ?></h2>
 <div class="text">
     <?php
-        readfile(date('Y', $next_year).'/text.html');
+        $file = date('Y', $next_year).'/text.html';
+        if (file_exists($file)) {
+            readfile($file);
+        }
     ?>
 </div>
 
