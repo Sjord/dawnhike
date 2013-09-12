@@ -66,6 +66,7 @@ h1, h2 {
 }
 #left_photos img {
     height: 150px;
+    display: block;
 }
 
 			.list_carousel ul {
