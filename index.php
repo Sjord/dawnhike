@@ -83,8 +83,9 @@ h1, h2 {
 				float: left;
 			}
 #carouselWrapper {
-    height: 180px;
+    height: 178px;
     position: relative;
+    overflow: hidden;
 }
 #next2, #prev2 {
     width: 30px;
@@ -108,7 +109,6 @@ h1, h2 {
     right: 30px;
 }
 </style>
-<script src="scripts/jquery-1.8.2.min.js"></script>
 <link rel="stylesheet" href="scripts/fancybox/jquery.fancybox.css" />
 <title>Dawnhike</title>
 </head>
@@ -148,35 +148,6 @@ h1, h2 {
             </div>
             <a id="next2" class="next" href="#">&gt;</a>
         </div>
-        <script>
-            $(document).ready(function() {
-                $('#left_photos').carouFredSel({
-                    auto: false,
-                    prev: '#prev2',
-                    next: '#next2',
-                    mousewheel: true,
-                    width: $('#carContainer').width(),
-                    swipe: {
-                        onMouse: true,
-                        onTouch: true
-                    }
-                });
-
-                $(".fancybox-thumb").fancybox({
-                    prevEffect	: 'none',
-                    nextEffect	: 'none',
-                    helpers	: {
-                        title	: {
-                            type: 'outside'
-                        },
-                        thumbs	: {
-                            width	: 50,
-                            height	: 50
-                        }
-                    }
-                });
-            });
-        </script>
     </div>
 </div><div id="right">
 
@@ -192,5 +163,33 @@ h1, h2 {
 </div>
 
 </div>
+<script src="scripts/jquery-1.8.2.min.js"></script>
 <script src="scripts/jquery.carouFredSel-6.2.1-packed.js"></script>
 <script src="scripts/fancybox/jquery.fancybox.pack.js"></script>
+<script>
+    $('#left_photos').carouFredSel({
+        auto: false,
+        prev: '#prev2',
+        next: '#next2',
+        mousewheel: true,
+        width: $('#carContainer').width(),
+        swipe: {
+            onMouse: true,
+            onTouch: true
+        }
+    });
+
+    $(".fancybox-thumb").fancybox({
+        prevEffect	: 'none',
+        nextEffect	: 'none',
+        helpers	: {
+            title	: {
+                type: 'outside'
+            },
+            thumbs	: {
+                width	: 50,
+                height	: 50
+            }
+        }
+    });
+</script>
