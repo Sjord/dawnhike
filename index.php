@@ -6,11 +6,12 @@ header('Content-Type: text/html; charset=utf-8');
 <html>
 <?php
 
-function nl_date($format, $time) {
-    $search = array('May', 'Jun');
-    $replace = array('mei', 'jun');
-    return str_replace($search, $replace, date($format, $time));
-}
+require('Context.php');
+require('Widget.php');
+require('widgets/Text.php');
+require('widgets/Header.php');
+require('widgets/Photos.php');
+require('widgets/Maps.php');
 
 $dates = json_decode(file_get_contents('dates.json'));
 $now = time();
@@ -22,212 +23,102 @@ foreach ($dates as $date) {
     }
     $last_year = $time;
 }
+
+$text = new Text();
+$header = new Header();
+$photos = new Photos();
+$maps = new Maps();
+$widgets = array($text, $header, $photos, $maps);
 ?>
 <head>
-<style type="text/css">
-html {
-    height: 100%;
-}
-body {
-	margin: 0;
-	padding: 0;
-	font-family: sans-serif;
-	background: green;
-    display: table;
-    height: 100%;
-}
-#left, #right {
-	width: 50%;
-	display: table-cell;
-	background: green no-repeat center center fixed; 
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	vertical-align: top;
-}
-.text {
-	background: rgba(255, 255, 255, 0.6);
-	padding: 1em;
-	margin: 1em;
-}
-#left {
-	background-image: url('dauw1.jpg');
-}
-#right {
-	background-image: url('dauw2.jpg');
-}
-h1, h2 { 
-	color: white;
-	padding: 0 1em;
-    text-shadow: #060 0px 0px 8px;
-}
-#right h1, #right h2 {
-	text-align: right;
-}
-#left_photos img {
-    height: 150px;
-    display: block;
-}
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background: green;
+            display: table;
+            height: 100%;
+        }
+        #left, #right {
+            width: 50%;
+            display: table-cell;
+            background: green no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            vertical-align: top;
+        }
+        .text {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 1em;
+            margin: 1em;
+        }
+        #left {
+            background-image: url('dauw1.jpg');
+        }
+        #right {
+            background-image: url('dauw2.jpg');
+        }
 
-			.list_carousel ul {
-				margin: 0;
-				padding: 0;
-				list-style: none;
-				display: block;
-			}
-			.list_carousel li {
-				border: 5px solid #999;
-				padding: 0;
-				margin: 6px;
-				display: block;
-				float: left;
-			}
-#carouselWrapper {
-    height: 178px;
-    position: relative;
-    overflow: hidden;
-}
-#next2, #prev2 {
-    width: 30px;
-    height: 100%;
-    position: absolute;
-    text-indent: -9999px;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
-#prev2 {
-    left: 0;
-    background-image: url('images/left.png');
-}
-#next2 {
-    right: 0;
-    background-image: url('images/right.png');
-}
-#carContainer {
-    position: absolute;
-    left: 30px;
-    right: 30px;
-}
-</style>
-<link rel="stylesheet" href="scripts/fancybox/jquery.fancybox.css" />
-<title>Dawnhike</title>
-</head>
-<body>
-<div id="left">
-    <h1><?php echo date('Y', $last_year); ?></h1>
-    <h2><?php echo nl_date('j M Y', $last_year); ?></h2>
-    <div class="text">
         <?php
-            $file = date('Y', $last_year).'/text.html';
-            if (file_exists($file)) {
-                readfile($file);
+            foreach ($widgets as $widget) {
+                $widget->renderCss();
             }
         ?>
-        <div id="carouselWrapper">
-            <a id="prev2" class="prev" href="#">&lt;</a>
-            <div id="carContainer" class="list_carousel">
-            
-            <ul id="left_photos">
-                <?php 
-                    $year = date('Y', $last_year);
-                    $dir = $year.'/fotos';
-                    $files = glob($dir . '/*.jpg') + glob($dir . '/*.JPG');
-                    foreach ($files as $file) {
-                        $size = getimagesize($file);
-                        $width = $size[0];
-                        $height = $size[1];
-                        $new_width = floor(150 / $height * $width);
-                        echo '<li>
-                            <a class="fancybox-thumb" rel="fancybox-thumb" href="'.$file.'">
-                                <img src="'.$file.'" width="'.$new_width.'" alt="Foto van Dawnhike '.$year.' bij Scouting Kameleon Kinheim" />
-                            </a>
-                        </li>';
-                    }
-                ?>
-            </ul>
-            </div>
-            <a id="next2" class="next" href="#">&gt;</a>
-        </div>
-
-        <div id="map-canvas" style="height: 500px; width: 100%"></div>
-
-    </div>
-</div><div id="right">
-
-    <h1><?php echo date('Y', $next_year); ?></h1>
-    <h2><?php echo nl_date('j M Y', $next_year); ?></h2>
-<div class="text">
+    </style>
     <?php
-        $file = date('Y', $next_year).'/text.html';
-        if (file_exists($file)) {
-            readfile($file);
+        $includes = array();
+        foreach ($widgets as $widget) {
+            $includes = array_merge($includes, $widget->getCssIncludes());
+        }
+        $includes = array_unique($includes);
+        foreach ($includes as $include) {
+            echo '<link rel="stylesheet" href="'.$include.'" />';
         }
     ?>
-</div>
+    <title>Dawnhike</title>
+</head>
+<body>
+    <div id="left">
+        <?php $context = new Context($last_year); ?>
+        <?php $header->renderHtml($context); ?>
+        <div class="text">
+            <?php
+                $text->renderHtml($context);
+                $photos->renderHtml($context);
+                $maps->renderHtml($context);
+            ?>
+        </div>
+    </div><div id="right">
+        <?php $context = new Context($next_year); ?>
+        <?php $header->renderHtml($context); ?>
+        <div class="text">
+            <?php
+                $text->renderHtml($context);
+            ?>
+        </div>
 
-</div>
-<script src="scripts/jquery-1.8.2.min.js"></script>
-<script src="scripts/jquery.carouFredSel-6.2.1-packed.js"></script>
-<script src="scripts/fancybox/jquery.fancybox.pack.js"></script>
-<script>
-    $('#left_photos').carouFredSel({
-        auto: false,
-        prev: '#prev2',
-        next: '#next2',
-        mousewheel: true,
-        width: $('#carContainer').width(),
-        swipe: {
-            onMouse: true,
-            onTouch: true
+    </div>
+
+    <?php
+        $includes = array();
+        foreach ($widgets as $widget) {
+            $includes = array_merge($includes, $widget->getScriptIncludes());
         }
-    });
-
-    $(".fancybox-thumb").fancybox({
-        prevEffect	: 'none',
-        nextEffect	: 'none',
-        helpers	: {
-            title	: {
-                type: 'outside'
-            },
-            thumbs	: {
-                width	: 50,
-                height	: 50
+        $includes = array_unique($includes);
+        foreach ($includes as $include) {
+            echo '<script type="text/javascript" src="'.$include.'"></script>';
+        }
+    ?>
+    <script type="text/javascript">
+        <?php
+            foreach ($widgets as $widget) {
+                $widget->renderScript();
             }
-        }
-    });
-</script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD44ReafoysVF0wuvCnvq-JjoiaJ_z6jt4&sensor=false"></script>
-<script type="text/javascript">
-    $.getJSON('route.php?year=2013', function (data) {
-        a = data;
-        avgLat = data.reduce(function (v, e) { return v + e.lat }, 0) / data.length;
-        avgLon = data.reduce(function (v, e) { return v + e.lon }, 0) / data.length;
-
-        function initialize() {
-          var mapOptions = {
-            zoom: 13,
-            center: new google.maps.LatLng(avgLat, avgLon),
-            mapTypeId: google.maps.MapTypeId.TERRAIN
-          };
-
-          var map = new google.maps.Map(document.getElementById('map-canvas'),
-              mapOptions);
-
-          
-          var flightPlanCoordinates = data.map(function (elem) { return new google.maps.LatLng(elem.lat, elem.lon); });
-          var flightPath = new google.maps.Polyline({
-            path: flightPlanCoordinates,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          });
-
-          flightPath.setMap(map);
-        }
-
-        initialize();
-    });
-</script>
-
-    
+        ?>
+    </script>

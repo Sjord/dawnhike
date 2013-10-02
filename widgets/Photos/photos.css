@@ -1,0 +1,44 @@
+#left_photos img {
+    height: 150px;
+    display: block;
+}
+
+.list_carousel ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+}
+.list_carousel li {
+    border: 5px solid #999;
+    padding: 0;
+    margin: 6px;
+    display: block;
+    float: left;
+}
+#carouselWrapper {
+    height: 178px;
+    position: relative;
+    overflow: hidden;
+}
+#next2, #prev2 {
+    width: 30px;
+    height: 100%;
+    position: absolute;
+    text-indent: -9999px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+#prev2 {
+    left: 0;
+    background-image: url('images/left.png');
+}
+#next2 {
+    right: 0;
+    background-image: url('images/right.png');
+}
+#carContainer {
+    position: absolute;
+    left: 30px;
+    right: 30px;
+}
